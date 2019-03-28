@@ -13,21 +13,21 @@ preserve
 
 // Reset [serset] container to open graph
 tempfile a
-  graph save `a'
+  qui graph save `a'
   graph close
 serset drop _all
   graph use `a'
 
 // Loop over all sersets
 local i = 0
-while `break' == 0 {
+qui while `break' == 0 {
   cap serset set `i'
   if _rc != 0 local break 1 // Quit if no more sersets found
   else {
     serset use
+    local ++i
     local thePath = subinstr("`using'",".csv","_`i'.csv",.)
     outsheet using "`thePath'" , c `replace'
-    local ++i
   }
 }
 
